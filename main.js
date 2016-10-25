@@ -1,12 +1,32 @@
-const electron = require('electron')
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow, addEventWindow;
+
+const template = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Add Event',
+        accelerator: 'CmdOrCtrl+a',
+        click (item, focusedWindow) {
+          addEventWindow = new BrowserWindow({
+            backgroundColor: 'transparent',
+            title: 'New Event'
+          });
+
+          addEventWindow.loadURL(`file://${__dirname}/add_event_form.html`);
+          addEventWindow.webContents.openDevTools();
+        }
+      },
+    ]
+  },
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 function createWindow () {
   // Create the browser window.
@@ -35,6 +55,11 @@ function createWindow () {
        mainWindow.focus();
    });
 }
+
+ipcMain.on('add-event', (event, data) => {
+  console.log(data);
+  mainWindow.send('add-event', data);
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
