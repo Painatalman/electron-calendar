@@ -9,15 +9,17 @@
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "calendar",
+    "plugin",
+    "event"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
     "@painatalman/eventcalendarjs": "^1.4.2",
     "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "@painatalman/eventcalendarjs": "1.9.0"
   }
 }
